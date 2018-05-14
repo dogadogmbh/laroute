@@ -1,6 +1,6 @@
 <?php
 
-namespace Lord\Laroute\Compilers;
+namespace Dogado\Laroute\Compilers;
 
 interface CompilerInterface
 {

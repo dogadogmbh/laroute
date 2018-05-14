@@ -1,6 +1,6 @@
 <?php
 
-namespace Lord\Laroute\Routes;
+namespace Dogado\Laroute\Routes;
 
 use Mockery;
 

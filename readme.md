@@ -1,5 +1,7 @@
 # Laroute
 
+## Forked from [aaronlord/laroute](https://github.com/aaronlord/laroute) - because of the inactivity of the maintainer
+
 [Laravel](http://laravel.com/) has some pretty sweet [helper functions](http://laravel.com/docs/helpers#urls) for generating urls/links and its auto-json-magic makes it building APIs super easy. It's my go-to choice for building single-page js apps, but routing can quickly become a bit of a pain.
 
 Wouldn't it be amazing if we could access our Laravel routes from JavaScript?
@@ -12,27 +14,22 @@ This package allows us to port our routes over to JavaScript, and gives us a bun
 
 Install the usual [composer](https://getcomposer.org/) way.
 
-###### composer.json
-```json
-{
-	"require" : {
-		"lord/laroute" : "2.*"
-	}
-}
+```bash
+composer require darthsoup/laravel-whmcs
 ```
 
-n.b Laravel 4.x users, check out [version 1.3.2](https://github.com/aaronlord/laroute/tree/v1.3.2)
+### After Laravel 5.5
 
-###### app/config/app.php
+You don't have to do anything else here.
+
+### Before Laravel 5.5
+
+Now all you have to do is add the service provider of the package and alias the package. To do this, open your `config/app.php` file.
+
+Add a new line to the `providers` array:
+
 ```php
-	...
-	
-	'providers' => array(
-		...
-		Lord\Laroute\LarouteServiceProvider::class,
-	],
-	
-	...
+Dogado\Laroute\LarouteServiceProvider::clas
 ```
 
 ### Configure (optional)
@@ -40,71 +37,7 @@ n.b Laravel 4.x users, check out [version 1.3.2](https://github.com/aaronlord/la
 Copy the packages config files.
 
 ```
-php artisan vendor:publish --provider='Lord\Laroute\LarouteServiceProvider'
-```
-
-###### app/config/packages/lord/laroute/config.php
-
-```php
-
-return [
-
-    /*
-     * The destination path for the javascript file.
-     */
-    'path' => 'public/js',
-
-    /*
-     * The destination filename for the javascript file.
-     */
-    'filename' => 'laroute',
-
-    /*
-     * The namespace for the helper functions. By default this will bind them to
-     * `window.laroute`.
-     */
-    'namespace' => 'laroute',
-
-    /*
-     * Generate absolute URLs
-     *
-     * Set the Application URL in config/app.php
-     */
-    'absolute' => false,
-
-    /*
-     * The Filter Methode
-     *
-     * 'all' => All routes except "'laroute' => false"
-     * 'only' => Only "'laroute' => true" routes
-     * 'force' => All routes, ignored "laroute" route parameter
-     */
-    'filter' => 'all',
-
-    /*
-     * Action Namespace
-     *
-     * Set here your controller namespace (see RouteServiceProvider -> $namespace) for cleaner action calls
-     * e.g. 'App\Http\Controllers'
-     */
-    'action_namespace' => '',
-
-    /*
-     * The path to the template `laroute.js` file. This is the file that contains
-     * the ported helper Laravel url/route functions and the route data to go
-     * with them.
-     */
-    'template' => 'vendor/lord/laroute/src/templates/laroute.js',
-    
-    /*
-     * Appends a prefix to URLs. By default the prefix is an empty string.
-    *
-    */
-    'prefix' => '',
-
-];
-
-    
+php artisan vendor:publish --provider='Dogado\Laroute\LarouteServiceProvider'
 ```
 
 ### Generate the `laroute.js`
@@ -126,22 +59,6 @@ With the default configuration, this will create a `public/js/laroute.js` file t
 ## JavaScript Documentation
 
 By default, all of the functions are under the `laroute` namespace. This documentation will stick with this convention.
-
-
-### action
-
-Generate a URL for a given controller action. 
-
-```js
-/** 
- * laroute.action(action, [parameters = {}])
- *
- * action     : The action to route to.
- * parameters : Optional. key:value object literal of route parameters.
- */
-
-laroute.action('HomeController@getIndex');
-```
 
 ### route
 
@@ -206,23 +123,6 @@ Generate a html link to the given route.
  laroute.link_to_route('home', 'Home');
 ```
 
-### link_to_action
-
-Generate a html link to the given action.
-
-```js
-/**
- * laroute.link_to_action(action, [title = url, parameters = {}], attributes = {}]]])
- *
- * action     : The action to route to.
- * title      : Optional. The anchor text to display
- * parameters : Optional. key:value object literal of route parameters.
- * attributes : Optional. key:value object literal of additional html attributes.
- */
- 
- laroute.link_to_action('HelloController@planet', undefined, { planet : 'world' });
-```
-
 ## PHP Documentation
 
 ### Ignore/Filter Routes
@@ -245,4 +145,4 @@ Route::group(['laroute' => false], function () {
 
 ## Licence
 
-[View the licence in this repo.](https://github.com/aaronlord/laroute/blob/master/LICENSE)
+[View the licence in this repo.](https://github.com/dogadogmbh/laroute/blob/master/LICENSE)

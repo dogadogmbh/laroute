@@ -16,7 +16,7 @@ class TemplateGeneratorTest extends \PhpUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->compiler   = $this->mock('Dogado\Laroute\Compilers\CompilerInterface');
+        $this->compiler = $this->mock('Dogado\Laroute\Compilers\CompilerInterface');
         $this->filesystem = $this->mock('Illuminate\Filesystem\Filesystem');
 
         $this->generator = new TemplateGenerator($this->compiler, $this->filesystem);
@@ -32,10 +32,10 @@ class TemplateGeneratorTest extends \PhpUnit\Framework\TestCase
 
     public function testItWillCompileAndSaveATemplate()
     {
-        $template     = "Template";
+        $template = 'Template';
         $templatePath = '/templatePath';
         $templateData = ['foo', 'bar'];
-        $filePath     = '/filePath';
+        $filePath = '/filePath';
 
         $this->filesystem
             ->shouldReceive('get')

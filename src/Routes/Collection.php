@@ -36,7 +36,7 @@ class Collection extends \Illuminate\Support\Collection
     }
 
     /**
-     * Throw an exception if there aren't any routes to process
+     * Throw an exception if there aren't any routes to process.
      *
      * @param RouteCollection $routes
      *
@@ -59,22 +59,25 @@ class Collection extends \Illuminate\Support\Collection
      */
     protected function getRouteInformation(Route $route, $filter)
     {
-        $host    = $route->domain();
+        $host = $route->domain();
         $methods = $route->methods();
-        $uri     = $route->uri();
-        $name    = $route->getName();
+        $uri = $route->uri();
+        $name = $route->getName();
         $laroute = array_get($route->getAction(), 'laroute', null);
 
         switch ($filter) {
             case 'all':
-                if($laroute === false) return null;
+                if ($laroute === false) {
+                    return;
+                }
                 break;
             case 'only':
-                if($laroute !== true) return null;
+                if ($laroute !== true) {
+                    return;
+                }
                 break;
         }
 
         return compact('host', 'methods', 'uri', 'name');
     }
-
 }

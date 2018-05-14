@@ -2,4 +2,6 @@
 
 namespace Dogado\Laroute\Exceptions;
 
-class ZeroRoutesException extends \Exception { }
+class ZeroRoutesException extends \Exception
+{
+}

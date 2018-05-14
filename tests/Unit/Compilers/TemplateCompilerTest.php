@@ -26,8 +26,8 @@ class TemplateCompilerTest extends \PhpUnit\Framework\TestCase
     public function testItCanCompileAString()
     {
         $template = 'Hello $YOU$, my name is $ME$.';
-        $data     = ['you' => 'Stranger', 'me' => 'Aaron'];
-        $expected = "Hello Stranger, my name is Aaron.";
+        $data = ['you' => 'Stranger', 'me' => 'Aaron'];
+        $expected = 'Hello Stranger, my name is Aaron.';
 
         $this->assertSame($expected, $this->compiler->compile($template, $data));
     }
@@ -41,6 +41,7 @@ class TemplateCompilerTest extends \PhpUnit\Framework\TestCase
     {
         $mock = Mockery::mock($class);
         $this->app->instance($class, $mock);
+
         return $mock;
     }
 }

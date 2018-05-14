@@ -4,13 +4,13 @@ namespace Dogado\Laroute\Routes;
 
 use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;
-use Dogado\Laroute\Routes\Exceptions\ZeroRoutesException;
+use Dogado\Laroute\Exceptions\ZeroRoutesException;
 
 class Collection extends \Illuminate\Support\Collection
 {
-    public function __construct(RouteCollection $routes, $filter, $namespace)
+    public function __construct(RouteCollection $routes, $filter)
     {
-        $this->items = $this->parseRoutes($routes, $filter, $namespace);
+        $this->items = $this->parseRoutes($routes, $filter);
     }
 
     /**
@@ -18,19 +18,18 @@ class Collection extends \Illuminate\Support\Collection
      *
      * @param RouteCollection $routes
      * @param string $filter
-     * @param string $namespace
      *
      * @return array
      * @throws ZeroRoutesException
      */
-    protected function parseRoutes(RouteCollection $routes, $filter, $namespace)
+    protected function parseRoutes(RouteCollection $routes, $filter)
     {
         $this->guardAgainstZeroRoutes($routes);
 
         $results = [];
 
         foreach ($routes as $route) {
-            $results[] = $this->getRouteInformation($route, $filter, $namespace);
+            $results[] = $this->getRouteInformation($route, $filter);
         }
 
         return array_values(array_filter($results));
@@ -45,8 +44,8 @@ class Collection extends \Illuminate\Support\Collection
      */
     protected function guardAgainstZeroRoutes(RouteCollection $routes)
     {
-        if (count($routes) < 1) {
-            throw new ZeroRoutesException("You don't have any routes!");
+        if ($routes->count() < 1) {
+            throw new ZeroRoutesException('No routes have been defined yet.');
         }
     }
 
@@ -55,26 +54,16 @@ class Collection extends \Illuminate\Support\Collection
      *
      * @param $route \Illuminate\Routing\Route
      * @param $filter string
-     * @param $namespace string
      *
      * @return array
      */
-    protected function getRouteInformation(Route $route, $filter, $namespace)
+    protected function getRouteInformation(Route $route, $filter)
     {
         $host    = $route->domain();
         $methods = $route->methods();
         $uri     = $route->uri();
         $name    = $route->getName();
-        $action  = $route->getActionName();
         $laroute = array_get($route->getAction(), 'laroute', null);
-
-        if(!empty($namespace)) {
-            $a = $route->getAction();
-
-            if(isset($a['controller'])) {
-                $action = str_replace($namespace.'\\', '', $action);
-            }
-        }
 
         switch ($filter) {
             case 'all':
@@ -85,7 +74,7 @@ class Collection extends \Illuminate\Support\Collection
                 break;
         }
 
-        return compact('host', 'methods', 'uri', 'name', 'action');
+        return compact('host', 'methods', 'uri', 'name');
     }
 
 }

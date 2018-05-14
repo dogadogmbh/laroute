@@ -1,5 +1,5 @@
 <?php
 
-namespace Dogado\Laroute\Routes\Exceptions;
+namespace Dogado\Laroute\Exceptions;
 
 class ZeroRoutesException extends \Exception { }

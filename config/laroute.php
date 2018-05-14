@@ -35,14 +35,6 @@ return [
     'filter' => 'all',
 
     /*
-     * Controller Namespace
-     *
-     * Set here your controller namespace (see RouteServiceProvider -> $namespace) for cleaner action calls
-     * e.g. 'App\Http\Controllers'
-     */
-    'action_namespace' => '',
-
-    /*
      * The path to the template `laroute.js` file. This is the file that contains
      * the ported helper Laravel url/route functions and the route data to go
      * with them.

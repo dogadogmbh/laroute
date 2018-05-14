@@ -4,7 +4,7 @@ namespace Dogado\Laroute\Routes;
 
 use Mockery;
 
-class CollectionTest extends \PHPUnit_Framework_TestCase
+class CollectionTest extends \PhpUnit\Framework\TestCase
 {
     protected $routeCollection;
 

@@ -4,7 +4,7 @@ namespace Dogado\Laroute\Compilers;
 
 use Mockery;
 
-class TemplateCompilerTest extends \PHPUnit_Framework_TestCase
+class TemplateCompilerTest extends \PhpUnit\Framework\TestCase
 {
     protected $compiler;
 

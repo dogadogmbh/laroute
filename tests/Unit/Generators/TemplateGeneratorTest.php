@@ -4,7 +4,7 @@ namespace Dogado\Laroute\Generators;
 
 use Mockery;
 
-class TemplateGeneratorTest extends \PHPUnit_Framework_TestCase
+class TemplateGeneratorTest extends \PhpUnit\Framework\TestCase
 {
     protected $compiler;
 

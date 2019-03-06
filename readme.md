@@ -15,7 +15,7 @@ This package allows us to port our routes over to JavaScript, and gives us a bun
 Install the usual [composer](https://getcomposer.org/) way.
 
 ```bash
-composer require dogadogmbh/laroute
+composer require dogado/laroute
 ```
 
 ### After Laravel 5.5

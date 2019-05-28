@@ -2,6 +2,7 @@
 
 namespace Dogado\Laroute\Routes;
 
+use Illuminate\Support\Arr;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;
 use Dogado\Laroute\Exceptions\ZeroRoutesException;
@@ -63,7 +64,7 @@ class Collection extends \Illuminate\Support\Collection
         $methods = $route->methods();
         $uri = $route->uri();
         $name = $route->getName();
-        $laroute = array_get($route->getAction(), 'laroute', null);
+        $laroute = Arr::get($route->getAction(), 'laroute', null);
 
         switch ($filter) {
             case 'all':

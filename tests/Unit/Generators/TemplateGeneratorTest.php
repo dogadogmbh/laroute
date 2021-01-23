@@ -1,10 +1,15 @@
 <?php
 
-namespace Dogado\Laroute\Generators;
+namespace Dogado\Tests\Laroute\Unit\Generators;
 
-use Mockery;
+use Dogado\Laroute\Compilers\TemplateCompiler;
+use Dogado\Laroute\Generators\GeneratorInterface;
+use Dogado\Laroute\Generators\TemplateGenerator;
+use Illuminate\Filesystem\Filesystem;
+use Mockery as m;
+use Orchestra\Testbench\TestCase;
 
-class TemplateGeneratorTest extends \PhpUnit\Framework\TestCase
+class TemplateGeneratorTest extends TestCase
 {
     protected $compiler;
 
@@ -12,22 +17,19 @@ class TemplateGeneratorTest extends \PhpUnit\Framework\TestCase
 
     protected $generator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->compiler = $this->mock('Dogado\Laroute\Compilers\CompilerInterface');
-        $this->filesystem = $this->mock('Illuminate\Filesystem\Filesystem');
+        $this->compiler = m::mock(TemplateCompiler::class);
+        $this->filesystem = m::mock(Filesystem::class);
 
         $this->generator = new TemplateGenerator($this->compiler, $this->filesystem);
     }
 
     public function testItIsOfTheCorrectInterface()
     {
-        $this->assertInstanceOf(
-            'Dogado\Laroute\Generators\GeneratorInterface',
-            $this->generator
-        );
+        $this->assertInstanceOf(GeneratorInterface::class, $this->generator);
     }
 
     public function testItWillCompileAndSaveATemplate()
@@ -63,15 +65,8 @@ class TemplateGeneratorTest extends \PhpUnit\Framework\TestCase
         $this->assertSame($actual, $filePath);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
-        Mockery::close();
-    }
-
-    protected function mock($class, $app = [])
-    {
-        $mock = Mockery::mock($class, $app);
-
-        return $mock;
+        m::close();
     }
 }

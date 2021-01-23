@@ -1,14 +1,16 @@
 <?php
 
-namespace Dogado\Laroute\Compilers;
+namespace Dogado\Tests\Laroute\Unit\Compilers;
 
-use Mockery;
+use Dogado\Laroute\Compilers\TemplateCompiler;
+use Dogado\Laroute\Compilers\CompilerInterface;
+use Orchestra\Testbench\TestCase;
 
-class TemplateCompilerTest extends \PhpUnit\Framework\TestCase
+class TemplateCompilerTest extends TestCase
 {
     protected $compiler;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -17,10 +19,7 @@ class TemplateCompilerTest extends \PhpUnit\Framework\TestCase
 
     public function testItIsOfTheCorrectInterface()
     {
-        $this->assertInstanceOf(
-            'Dogado\Laroute\Compilers\CompilerInterface',
-            $this->compiler
-        );
+        $this->assertInstanceOf(CompilerInterface::class, $this->compiler);
     }
 
     public function testItCanCompileAString()
@@ -30,18 +29,5 @@ class TemplateCompilerTest extends \PhpUnit\Framework\TestCase
         $expected = 'Hello Stranger, my name is Aaron.';
 
         $this->assertSame($expected, $this->compiler->compile($template, $data));
-    }
-
-    public function tearDown()
-    {
-        Mockery::close();
-    }
-
-    protected function mock($class)
-    {
-        $mock = Mockery::mock($class);
-        $this->app->instance($class, $mock);
-
-        return $mock;
     }
 }

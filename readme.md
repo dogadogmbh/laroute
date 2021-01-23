@@ -1,6 +1,7 @@
 # Laroute
+---
 
-## Forked from [aaronlord/laroute](https://github.com/aaronlord/laroute) - because of the inactivity of the maintainer
+### Forked from [aaronlord/laroute](https://github.com/aaronlord/laroute) for security and updated laravel versions
 
 [Laravel](http://laravel.com/) has some pretty sweet [helper functions](http://laravel.com/docs/helpers#urls) for generating urls/links and its auto-json-magic makes it building APIs super easy. It's my go-to choice for building single-page js apps, but routing can quickly become a bit of a pain.
 
@@ -12,24 +13,10 @@ This package allows us to port our routes over to JavaScript, and gives us a bun
 
 ## Installation
 
-Install the usual [composer](https://getcomposer.org/) way.
+Install with the usual [composer](https://getcomposer.org/) way.
 
 ```bash
 composer require dogado/laroute
-```
-
-### After Laravel 5.5
-
-You don't have to do anything else here.
-
-### Before Laravel 5.5
-
-Now all you have to do is add the service provider of the package and alias the package. To do this, open your `config/app.php` file.
-
-Add a new line to the `providers` array:
-
-```php
-Dogado\Laroute\LarouteServiceProvider::clas
 ```
 
 ### Configure (optional)

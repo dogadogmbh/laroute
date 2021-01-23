@@ -2,8 +2,8 @@
 
 namespace Dogado\Laroute\Generators;
 
+use Dogado\Laroute\Compilers\CompilerInterface;
 use Illuminate\Filesystem\Filesystem;
-use Dogado\Laroute\Compilers\CompilerInterface as Compiler;
 
 interface GeneratorInterface
 {
@@ -13,7 +13,7 @@ interface GeneratorInterface
      * @param $compiler   \Dogado\Laroute\Compilers\CompilerInterface
      * @param $filesystem \Illuminate\Filesystem\Filesystem
      */
-    public function __construct(Compiler $compiler, Filesystem $filesystem);
+    public function __construct(CompilerInterface $compiler, Filesystem $filesystem);
 
     /**
      * Compile the template.

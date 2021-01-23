@@ -3,8 +3,12 @@
 namespace Dogado\Laroute;
 
 use Illuminate\Support\ServiceProvider;
-use Dogado\Laroute\Routes\Collection as Routes;
+use Dogado\Laroute\Routes\Collection as RoutesCollection;
 use Dogado\Laroute\Console\Commands\LarouteGeneratorCommand;
+use Dogado\Laroute\Generators\GeneratorInterface;
+use Dogado\Laroute\Generators\TemplateGenerator;
+use Dogado\Laroute\Compilers\CompilerInterface;
+use Dogado\Laroute\Compilers\TemplateCompiler;
 
 class LarouteServiceProvider extends ServiceProvider
 {
@@ -15,8 +19,9 @@ class LarouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $source = $this->getConfigPath();
-        $this->publishes([$source => config_path('laroute.php')], 'config');
+        $source = realpath(__DIR__.'/../config/laroute.php');
+        $this->publishes([$source => config_path('laroute.php')]);
+        $this->mergeConfigFrom($source, 'laroute');
     }
 
     /**
@@ -26,24 +31,9 @@ class LarouteServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $source = $this->getConfigPath();
-        $this->mergeConfigFrom($source, 'laroute');
-
         $this->registerGenerator();
-
         $this->registerCompiler();
-
         $this->registerCommand();
-    }
-
-    /**
-     * Get the config path.
-     *
-     * @return string
-     */
-    protected function getConfigPath()
-    {
-        return realpath(__DIR__.'/../config/laroute.php');
     }
 
     /**
@@ -53,10 +43,7 @@ class LarouteServiceProvider extends ServiceProvider
      */
     protected function registerGenerator()
     {
-        $this->app->bind(
-            'Dogado\Laroute\Generators\GeneratorInterface',
-            'Dogado\Laroute\Generators\TemplateGenerator'
-        );
+        $this->app->bind(GeneratorInterface::class, TemplateGenerator::class);
     }
 
     /**
@@ -66,10 +53,7 @@ class LarouteServiceProvider extends ServiceProvider
      */
     protected function registerCompiler()
     {
-        $this->app->bind(
-            'Dogado\Laroute\Compilers\CompilerInterface',
-            'Dogado\Laroute\Compilers\TemplateCompiler'
-        );
+        $this->app->bind(CompilerInterface::class, TemplateCompiler::class);
     }
 
     /**
@@ -79,16 +63,16 @@ class LarouteServiceProvider extends ServiceProvider
      */
     protected function registerCommand()
     {
-        $this->app->singleton(
-            'command.laroute.generate',
-            function ($app) {
-                $config = $app['config'];
-                $routes = new Routes($app['router']->getRoutes(), $config->get('laroute.filter', 'all'), $config->get('laroute.action_namespace', ''));
-                $generator = $app->make('Dogado\Laroute\Generators\GeneratorInterface');
+        $this->app->singleton('command.laroute.generate', function ($app) {
+            $config = $app['config'];
+            $routes = new RoutesCollection(
+                $app['router']->getRoutes(),
+                $config->get('laroute.filter', 'all')
+            );
+            $generator = $app->make(GeneratorInterface::class);
 
-                return new LarouteGeneratorCommand($config, $routes, $generator);
-            }
-        );
+            return new LarouteGeneratorCommand($config, $routes, $generator);
+        });
 
         $this->commands('command.laroute.generate');
     }

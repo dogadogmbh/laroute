@@ -2,6 +2,8 @@
 
 namespace Dogado\Laroute\Compilers;
 
+use Illuminate\Support\Str;
+
 class TemplateCompiler implements CompilerInterface
 {
     /**
@@ -15,7 +17,7 @@ class TemplateCompiler implements CompilerInterface
     public function compile($template, $data)
     {
         foreach ($data as $key => $value) {
-            $key = strtoupper($key);
+            $key = Str::upper($key);
 
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';

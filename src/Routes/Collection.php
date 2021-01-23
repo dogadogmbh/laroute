@@ -2,14 +2,15 @@
 
 namespace Dogado\Laroute\Routes;
 
-use Illuminate\Support\Arr;
+use Dogado\Laroute\Exceptions\ZeroRoutesException;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\RouteCollection;
-use Dogado\Laroute\Exceptions\ZeroRoutesException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection as BaseCollection;
 
-class Collection extends \Illuminate\Support\Collection
+class Collection extends BaseCollection
 {
-    public function __construct(RouteCollection $routes, $filter)
+    public function __construct(RouteCollection $routes, string $filter)
     {
         $this->items = $this->parseRoutes($routes, $filter);
     }
@@ -23,7 +24,7 @@ class Collection extends \Illuminate\Support\Collection
      * @return array
      * @throws ZeroRoutesException
      */
-    protected function parseRoutes(RouteCollection $routes, $filter)
+    protected function parseRoutes(RouteCollection $routes, string $filter)
     {
         $this->guardAgainstZeroRoutes($routes);
 
@@ -58,13 +59,13 @@ class Collection extends \Illuminate\Support\Collection
      *
      * @return array
      */
-    protected function getRouteInformation(Route $route, $filter)
+    protected function getRouteInformation(Route $route, string $filter)
     {
         $host = $route->domain();
         $methods = $route->methods();
         $uri = $route->uri();
         $name = $route->getName();
-        $laroute = Arr::get($route->getAction(), 'laroute', null);
+        $laroute = Arr::get($route->getAction(), 'laroute');
 
         switch ($filter) {
             case 'all':

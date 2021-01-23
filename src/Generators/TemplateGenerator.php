@@ -2,8 +2,8 @@
 
 namespace Dogado\Laroute\Generators;
 
+use Dogado\Laroute\Compilers\CompilerInterface;
 use Illuminate\Filesystem\Filesystem;
-use Dogado\Laroute\Compilers\CompilerInterface as Compiler;
 
 class TemplateGenerator implements GeneratorInterface
 {
@@ -27,7 +27,7 @@ class TemplateGenerator implements GeneratorInterface
      * @param $compiler   \Dogado\Laroute\Compilers\CompilerInterface
      * @param $filesystem \Illuminate\Filesystem\Filesystem
      */
-    public function __construct(Compiler $compiler, Filesystem $filesystem)
+    public function __construct(CompilerInterface $compiler, Filesystem $filesystem)
     {
         $this->compiler = $compiler;
 
@@ -58,7 +58,7 @@ class TemplateGenerator implements GeneratorInterface
 
     public function makeDirectory($directory)
     {
-        if (! $this->filesystem->isDirectory($directory)) {
+        if (!$this->filesystem->isDirectory($directory)) {
             $this->filesystem->makeDirectory($directory, 0777, true);
         }
     }
